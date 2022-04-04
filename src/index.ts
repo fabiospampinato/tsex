@@ -62,7 +62,7 @@ const TSEX = {
       wait: 100,
       watch: options.watch,
       fn: async () => {
-        const command = `node "${PATH_TSC}"`;
+        const command = `node "${PATH_TSC}" --outDir "${DIR_DIST}"`;
         execInherit ( command );
         await TSEX.transform ( {} );
       }
