@@ -244,7 +244,7 @@ const Transformer = {
 
       } else {
 
-        return `${match[1]}${match[2]}}${next}${match[4]}`;
+        return `${match[1]}${match[2]}${next}${match[4]}`;
 
       }
 
