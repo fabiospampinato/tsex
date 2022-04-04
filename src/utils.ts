@@ -23,15 +23,37 @@ const ensureFile = async ( path: string ): Promise<void> => {
 
 };
 
-const execBuffer = ( command: string ): Buffer => {
+const execBuffer = ( command: string ): Buffer | false => {
 
-  return execSync ( command );
+  try {
+
+    return execSync ( command );
+
+  } catch ( error: unknown ) {
+
+    const message = isError ( error ) ? error.message : ( isString ( error ) ? error: `Command failed: "${command}"` );
+
+    console.log ( color.red ( message ) );
+
+    return false;
+
+  }
 
 };
 
 const execInherit = ( command: string ): void => {
 
-  execSync ( command, { stdio: 'inherit' } );
+  try {
+
+    execSync ( command, { stdio: 'inherit' } );
+
+  } catch ( error: unknown ) {
+
+    const message = isError ( error ) ? error.message : ( isString ( error ) ? error: `Command failed: "${command}"` );
+
+    console.log ( color.red ( message ) );
+
+  }
 
 };
 
@@ -46,6 +68,12 @@ const exit = ( message: string ): never => {
 const isDir = ( path: string ): Promise<boolean> => {
 
   return isFile ( path );
+
+};
+
+const isError = ( value: unknown ): value is Error => {
+
+  return value instanceof Error;
 
 };
 
@@ -81,4 +109,4 @@ const warn = ( message: string ): void => {
 
 /* EXPORT */
 
-export {ensureDir, ensureFile, execBuffer, execInherit, exit, isDir, isFile, isPlainObject, isString, warn};
+export {ensureDir, ensureFile, execBuffer, execInherit, exit, isDir, isError, isFile, isPlainObject, isString, warn};

@@ -34,6 +34,7 @@ const TSEX = {
       fn: async () => {
         const command = `"${PATH_ESBUILD}" --bundle ${options.format ? `--format=${options.format}` : ''} ${options.platform ? `--platform=${options.platform}` : ''} ${options.target ? `--target=${options.target}` : ''} ${options.minify ? '--minify' : ''} "${DIR_SOURCE}/index.ts"`;
         const buffer = await execBuffer ( command );
+        if ( !buffer ) return;
         const distPath = path.join ( PATH_DIST, 'index.js' );
         await TSEX.clean ();
         await ensureDir ( PATH_DIST );
