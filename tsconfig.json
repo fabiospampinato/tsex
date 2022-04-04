@@ -1,4 +1,5 @@
 {
+  "include": ["src"],
   "compilerOptions": {
     "allowJs": false,
     "allowSyntheticDefaultImports": true,
@@ -43,12 +44,9 @@
     "useUnknownInCatchVariables": true,
     "noImplicitAny": true,
     "noUncheckedIndexedAccess": false,
-    // "paths": {
-    //   "~": ["./src"],
-    //   "~/*": ["./src/*"]
-    // }
-  },
-  // "include": [
-  //   "src"
-  // ]
+    "paths": {
+      "~": ["./src"],
+      "~/*": ["./src/*"]
+    }
+  }
 }
