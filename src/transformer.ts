@@ -252,7 +252,7 @@ const Transformer = {
 
     if ( content !== contentNext ) {
 
-      await writeFile ( source, content );
+      await writeFile ( source, contentNext );
 
     }
 
