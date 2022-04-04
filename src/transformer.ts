@@ -213,7 +213,7 @@ const Transformer = {
 
     if ( !ctx ) return;
 
-    Transformer.transformAll ( ctx );
+    await Transformer.transformAll ( ctx );
 
   },
 
