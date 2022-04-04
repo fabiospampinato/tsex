@@ -43,15 +43,12 @@
     "useUnknownInCatchVariables": true,
     "noImplicitAny": true,
     "noUncheckedIndexedAccess": false,
-    "paths": {
-      "~": ["./src"],
-      "~/*": ["./src/*"]
-    }
+    // "paths": {
+    //   "~": ["./src"],
+    //   "~/*": ["./src/*"]
+    // }
   },
-  "include": [
-    "src"
-  ],
-  "exclude": [
-    "node_modules"
-  ]
+  // "include": [
+  //   "src"
+  // ]
 }
