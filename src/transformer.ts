@@ -234,18 +234,17 @@ const Transformer = {
     const contentNext = content.replace ( importsRe, ( ...match ) => {
 
       const prev = match[3];
-
       const next = Transformer.rewrite ( ctx, source, prev );
 
       if ( next === false ) {
 
         warn ( `Failed to rewrite "${prev}" import in "${source}"` );
 
-        return prev;
+        return match[0];
 
       } else {
 
-        return next;
+        return `${match[1]}${match[2]}}${next}${match[4]}`;
 
       }
 
