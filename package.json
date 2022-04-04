@@ -2,7 +2,7 @@
   "name": "tsex",
   "repository": "github:fabiospampinato/tsex",
   "description": "A little CLI for making TypeScript packages, cleanly and effortlessly.",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "type": "commonjs",
   "bin": "./dist/bin.js",
   "scripts": {
