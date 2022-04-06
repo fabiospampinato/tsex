@@ -63,7 +63,7 @@ const TSEX = {
     await TSEX.init ();
 
     return TSEX.withWatcher ({
-      paths: [PATH_DIST, PATH_TSCONFIG],
+      paths: [PATH_SOURCE, PATH_TSCONFIG],
       wait: 100,
       watch: options.watch,
       fn: async () => {
