@@ -166,11 +166,12 @@ const Transformer = {
 
     if ( isRelative || isAbsolute ) {
 
-      const from = isRelative ? path.dirname ( source ) : ctx.root;
-      const to = isRelative ? path.resolve ( from, before ) : path.join ( from, `.${before.slice ( 1 )}` );
+      const from = path.dirname ( source );
+      const root = isRelative ? from : ctx.root;
+      const to = isRelative ? path.resolve ( root, before ) : path.join ( root, `.${before.slice ( 1 )}` );
       const relative = path.relative ( from, to ).replace ( /^([^\.]|$)/, './$1' );
       const attempts = [relative, `${relative}.js`, `${relative}/index.js`];
-      const attempt = attempts.find ( attempt => ctx.filesSet.has ( path.resolve ( from, attempt ) ) );
+      const attempt = attempts.find ( attempt => ctx.sourcesSet.has ( path.resolve ( from, attempt ) ) );
 
       return attempt || false;
 
