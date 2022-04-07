@@ -230,9 +230,9 @@ const Transformer = {
 
   transformOne: async ( ctx: TransformerContext, source: string, content: string ): Promise<void> => {
 
-    const importsRe = /((?:^|[\s;,(){}[\]])(?:im[p]ort\s*(?:\(?|.+?from\s*)\s*|re[q]uire\s*\(\s*))(['"])([^'"\r\n\s]+)(\2)/g;
+    const importsExportsRequiresRe = /((?:^|[\s;,(){}[\]])(?:(?:im[p]ort|ex[p]ort)\s*(?:\(?|.+?from\s*)\s*|re[q]uire\s*\(\s*))(['"])([^'"\r\n\s]+)(\2)/g;
 
-    const contentNext = content.replace ( importsRe, ( ...match ) => {
+    const contentNext = content.replace ( importsExportsRequiresRe, ( ...match ) => {
 
       const prev = match[3];
       const next = Transformer.rewrite ( ctx, source, prev );
