@@ -87,6 +87,15 @@ const TSEX = {
 
   },
 
+  dev: async (): Promise<void> => {
+
+    await Promise.all ([
+      TSEX.compile ( { watch: true } ),
+      TSEX.test ( { watch: true } )
+    ])
+
+  },
+
   init: async (): Promise<void> => {
 
     if ( !await isFile ( PATH_TSCONFIG_SELF ) ) return;

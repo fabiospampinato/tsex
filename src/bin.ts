@@ -64,6 +64,14 @@ program
   });
 
 program
+  .command ( 'dev' )
+  .description ( 'Compile the project with tsc and run tests with fava, while watching files' )
+  .action ( async () => {
+    await TSEX.dev ();
+    process.exit ( 0 );
+  });
+
+program
   .command ( 'task' )
   .description ( 'Run a task' )
   .option ( '--name <name>', 'The name of the task' )
