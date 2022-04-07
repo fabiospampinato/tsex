@@ -29,13 +29,16 @@ const Context = {
     const modulesSet = new Set ( modules );
     const files = await Context.getFiles ();
     const filesSet = new Set ( files );
+    const declarations = await Context.getDeclarations ( files );
+    const declarationsSet = new Set ( declarations );
+    const declarationsContents = await Context.getContents ( declarations );
     const sources = await Context.getSources ( files );
     const sourcesSet = new Set ( sources );
-    const contents = await Context.getContents ( sources );
+    const sourcesContents = await Context.getContents ( sources );
 
-    if ( !contents ) return false;
+    if ( !declarationsContents || !sourcesContents ) return false;
 
-    return {root, dependencies, dependenciesSet, dependenciesDev, dependenciesDevSet, dependenciesPeer, dependenciesPeerSet, modules, modulesSet, files, filesSet, sources, sourcesSet, contents};
+    return {root, dependencies, dependenciesSet, dependenciesDev, dependenciesDevSet, dependenciesPeer, dependenciesPeerSet, modules, modulesSet, files, filesSet, declarations, declarationsSet, sources, sourcesSet, declarationsContents, sourcesContents};
 
   },
 
@@ -55,6 +58,16 @@ const Context = {
       return false;
 
     }
+
+  },
+
+  getDeclarations: async ( files: string[] ): Promise<string[]> => {
+
+    const re = /\.d\.ts$/;
+    const isDeclaration = ( filePath: string ) => re.test ( filePath );
+    const declarations = files.filter ( isDeclaration );
+
+    return declarations;
 
   },
 
@@ -157,7 +170,50 @@ const Transformer = {
 
   /* API */
 
-  rewrite: ( ctx: TransformerContext, source: string, before: string ): string | false => {
+  rewrite: ( ctx: TransformerContext, type: 'declaration' | 'source', source: string, before: string ): string | false => {
+
+    if ( type === 'declaration' ) {
+
+      return Transformer.rewriteDeclaration ( ctx, source, before );
+
+    }
+
+    if ( type === 'source' ) {
+
+      return Transformer.rewriteSource ( ctx, source, before );
+
+    }
+
+    throw new Error ( 'Unknown file type' );
+
+  },
+
+  rewriteDeclaration: ( ctx: TransformerContext, filePath: string, before: string ): string | false => {
+
+    const isRelative = before.startsWith ( '.' );
+    const isAbsolute = before.startsWith ( '~' );
+
+    if ( isRelative || isAbsolute ) {
+
+      const from = path.dirname ( filePath );
+      const root = isRelative ? from : ctx.root;
+      const to = isRelative ? path.resolve ( root, before ) : path.join ( root, `.${before.slice ( 1 )}` );
+      const relative = path.relative ( from, to ).replace ( /^([^\.]|$)/, './$1' );
+
+      const attempts = [relative, `${relative}.d.ts`, `${relative}/index.d.ts`];
+      const attempt = attempts.find ( attempt => ctx.declarationsSet.has ( path.resolve ( from, attempt ) ) );
+
+      if ( attempt ) return relative; // We don't actually want to fully resolve the path for declaration files
+
+      return false;
+
+    }
+
+    return before;
+
+  },
+
+  rewriteSource: ( ctx: TransformerContext, filePath: string, before: string ): string | false => {
 
     const isRelative = before.startsWith ( '.' );
     const isAbsolute = before.startsWith ( '~' );
@@ -166,7 +222,7 @@ const Transformer = {
 
     if ( isRelative || isAbsolute ) {
 
-      const from = path.dirname ( source );
+      const from = path.dirname ( filePath );
       const root = isRelative ? from : ctx.root;
       const to = isRelative ? path.resolve ( root, before ) : path.join ( root, `.${before.slice ( 1 )}` );
       const relative = path.relative ( from, to ).replace ( /^([^\.]|$)/, './$1' );
@@ -220,26 +276,29 @@ const Transformer = {
 
   transformAll: async ( ctx: TransformerContext ): Promise<void> => {
 
-    await Promise.all ( ctx.sources.map ( ( source, i ) => {
-
-      return Transformer.transformOne ( ctx, source, ctx.contents[i] );
-
-    }));
+    await Promise.all ([
+      Promise.all ( ctx.sources.map ( ( source, i ) => {
+        return Transformer.transformOne ( ctx, 'source', source, ctx.sourcesContents[i] );
+      })),
+      Promise.all ( ctx.declarations.map ( ( declaration, i ) => {
+        return Transformer.transformOne ( ctx, 'declaration', declaration, ctx.declarationsContents[i] );
+      }))
+    ]);
 
   },
 
-  transformOne: async ( ctx: TransformerContext, source: string, content: string ): Promise<void> => {
+  transformOne: async ( ctx: TransformerContext, type: 'declaration' | 'source', filePath: string, fileContent: string ): Promise<void> => {
 
     const importsExportsRequiresRe = /((?:^|[\s;,(){}[\]])(?:(?:im[p]ort|ex[p]ort)\s*(?:\(?|.+?from\s*)\s*|re[q]uire\s*\(\s*))(['"])([^'"\r\n\s]+)(\2)/g;
 
-    const contentNext = content.replace ( importsExportsRequiresRe, ( ...match ) => {
+    const fileContentNext = fileContent.replace ( importsExportsRequiresRe, ( ...match ) => {
 
       const prev = match[3];
-      const next = Transformer.rewrite ( ctx, source, prev );
+      const next = Transformer.rewrite ( ctx, type, filePath, prev );
 
       if ( next === false ) {
 
-        warn ( `Failed to rewrite "${prev}" import in "${source}"` );
+        warn ( `Failed to rewrite "${prev}" import in "${filePath}"` );
 
         return match[0];
 
@@ -251,9 +310,9 @@ const Transformer = {
 
     });
 
-    if ( content !== contentNext ) {
+    if ( fileContent !== fileContentNext ) {
 
-      await writeFile ( source, contentNext );
+      await writeFile ( filePath, fileContentNext );
 
     }
 

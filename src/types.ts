@@ -62,9 +62,12 @@ type TransformerContext = {
   modulesSet: Set<string>,
   files: string[],
   filesSet: Set<string>,
+  declarations: string[],
+  declarationsSet: Set<string>,
+  declarationsContents: string[],
   sources: string[],
   sourcesSet: Set<string>,
-  contents: string[]
+  sourcesContents: string[]
 };
 
 /* EXPORT */
