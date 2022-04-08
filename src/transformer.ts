@@ -192,6 +192,9 @@ const Transformer = {
 
     const isRelative = before.startsWith ( '.' );
     const isAbsolute = before.startsWith ( '~' );
+    const isNotRewritable = isRelative && before.endsWith ( '.js' );
+
+    if ( isNotRewritable ) return before;
 
     if ( isRelative || isAbsolute ) {
 
@@ -217,8 +220,11 @@ const Transformer = {
 
     const isRelative = before.startsWith ( '.' );
     const isAbsolute = before.startsWith ( '~' );
+    const isNotRewritable = isRelative && before.endsWith ( '.js' );
     const isModule = ctx.modulesSet.has ( before );
     const isNodeModule = before.startsWith ( 'node:' );
+
+    if ( isNotRewritable ) return before;
 
     if ( isRelative || isAbsolute ) {
 
