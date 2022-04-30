@@ -295,7 +295,7 @@ const Transformer = {
 
   transformOne: async ( ctx: TransformerContext, type: 'declaration' | 'source', filePath: string, fileContent: string ): Promise<void> => {
 
-    const importsExportsRequiresRe = /((?:^|[\s;,(){}[\]])(?:(?:im[p]ort|ex[p]ort)\s*(?:\(?|.+?from\s*)\s*|re[q]uire\s*\(\s*))(['"])([^'"\r\n\s]+)(\2)/g;
+    const importsExportsRequiresRe = /((?:^|[\s;,<>(){}[\]])(?:(?:im[p]ort|ex[p]ort)\s*(?:\(?|.+?from\s*)\s*|re[q]uire\s*\(\s*))(['"])([^'"\r\n\s]+)(\2)/g;
 
     const fileContentNext = fileContent.replace ( importsExportsRequiresRe, ( ...match ) => {
 
