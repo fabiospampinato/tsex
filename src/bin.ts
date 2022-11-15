@@ -2,6 +2,7 @@
 
 /* IMPORT */
 
+import process from 'node:process';
 import {program, updater} from 'specialist';
 import {name, version, description} from '../package.json';
 import TSEX from '.';

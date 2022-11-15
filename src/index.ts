@@ -1,10 +1,11 @@
 
 /* IMPORT */
 
-import {writeFile} from 'atomically';
+import {readFile, writeFile} from 'atomically';
 import debounce from 'debounce';
 import fs from 'node:fs/promises';
 import path from 'node:path';
+import process from 'node:process';
 import {color} from 'specialist';
 import Watcher from 'watcher';
 import {DIR_DIST, DIR_SOURCE, PATH_DIST, PATH_SOURCE, PATH_TASK, PATH_TEST, PATH_ESBUILD, PATH_FAVA, PATH_TSC, PATH_TSCONFIG, PATH_TSCONFIG_SELF} from './constants';
@@ -41,7 +42,7 @@ const TSEX = {
         const distPath = path.join ( PATH_DIST, 'index.js' );
         await TSEX.clean ();
         await ensureDir ( PATH_DIST );
-        await fs.writeFile ( distPath, buffer );
+        await writeFile ( distPath, buffer );
         await TSEX.declare ( {} );
       }
     });
@@ -100,7 +101,7 @@ const TSEX = {
 
     if ( !await isFile ( PATH_TSCONFIG_SELF ) ) return;
 
-    const content = await fs.readFile ( PATH_TSCONFIG_SELF, 'utf-8' );
+    const content = await readFile ( PATH_TSCONFIG_SELF, 'utf-8' );
     const tsconfig = JSON.parse ( content );
 
     tsconfig.include = [PATH_SOURCE];

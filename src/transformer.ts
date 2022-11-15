@@ -1,9 +1,9 @@
 
 /* IMPORT */
 
-import {writeFile} from 'atomically';
-import fs from 'node:fs/promises';
+import {readFile, writeFile} from 'atomically';
 import path from 'node:path';
+import process from 'node:process';
 import ripread from 'ripread';
 import readdir from 'tiny-readdir';
 import {NODE_MODULES, PATH_DIST, PATH_PACKAGE} from './constants';
@@ -136,7 +136,7 @@ const Context = {
 
     if ( !await isFile ( PATH_PACKAGE ) ) exit ( 'Package.json not found, are you at the root?' );
 
-    const content = await fs.readFile ( PATH_PACKAGE, 'utf-8' );
+    const content = await readFile ( PATH_PACKAGE, 'utf-8' );
     const pkg = JSON.parse ( content );
 
     return pkg;
