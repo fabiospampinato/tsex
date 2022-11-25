@@ -8,7 +8,7 @@ import path from 'node:path';
 import process from 'node:process';
 import {color} from 'specialist';
 import Watcher from 'watcher';
-import {DIR_DIST, DIR_SOURCE, PATH_DIST, PATH_SOURCE, PATH_TASK, PATH_TEST, PATH_ESBUILD, PATH_FAVA, PATH_TSC, PATH_TSCONFIG, PATH_TSCONFIG_SELF} from './constants';
+import {DIR_DIST, DIR_SOURCE, PATH_DIST, PATH_SOURCE, PATH_TASK, PATH_TEST, PATH_ESBUILD, PATH_FAVA1, PATH_FAVA2, PATH_TSC, PATH_TSCONFIG, PATH_TSCONFIG_SELF} from './constants';
 import Transformer from './transformer';
 import {ensureDir, execBuffer, execInherit, exit, isDir, isFile} from './utils';
 import type {BenchmarkOptions, BundleOptions, CompileOptions, DeclareOptions, TaskOptions, TestOptions, TransformOptions, WatcherOptions} from './types';
@@ -136,14 +136,16 @@ const TSEX = {
 
   test: async ( options: TestOptions ): Promise<void> => {
 
-    if ( !await isFile ( PATH_FAVA ) ) exit ( 'Fava not found, did you install it?' );
+    const pathFava = await isFile ( PATH_FAVA1 ) ? PATH_FAVA1 : ( await isFile ( PATH_FAVA2 ) ? PATH_FAVA2 : undefined );
+
+    if ( !pathFava ) exit ( 'Fava not found, did you install it?' );
 
     return TSEX.withWatcher ({
       paths: [PATH_DIST, PATH_TEST],
       wait: 100,
       watch: options.watch,
       fn: () => {
-        const command = `node "${PATH_FAVA}"`;
+        const command = `node "${pathFava}"`;
         execInherit ( command );
       }
     });
