@@ -2,7 +2,7 @@
 /* IMPORT */
 
 import {readFile, writeFile} from 'atomically';
-import debounce from 'debounce';
+import {debounce} from 'dettle';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import process from 'node:process';
