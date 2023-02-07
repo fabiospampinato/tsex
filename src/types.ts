@@ -21,6 +21,14 @@ type DeclareOptions = {
   watch?: boolean
 };
 
+type PrepareOptions = {
+  bundle?: boolean,
+  format?: 'iife' | 'cjs' | 'esm',
+  minify?: boolean,
+  platform?: 'browser' | 'node' | 'neutral',
+  target?: 'es2016' | 'es2017' | 'es2018' | 'es2019' | 'es2020' | 'esnext'
+};
+
 type TaskOptions = {
   name?: string,
   watch?: boolean
@@ -72,4 +80,4 @@ type TransformerContext = {
 
 /* EXPORT */
 
-export type {BenchmarkOptions, BundleOptions, CompileOptions, DeclareOptions, TaskOptions, TestOptions, TransformOptions, WatcherOptions, Package, TransformerContext};
+export type {BenchmarkOptions, BundleOptions, CompileOptions, DeclareOptions, PrepareOptions, TaskOptions, TestOptions, TransformOptions, WatcherOptions, Package, TransformerContext};

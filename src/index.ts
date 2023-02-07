@@ -11,7 +11,7 @@ import Watcher from 'watcher';
 import {DIR_DIST, DIR_SOURCE, PATH_DIST, PATH_SOURCE, PATH_TASK, PATH_TEST, PATH_ESBUILD, PATH_FAVA1, PATH_FAVA2, PATH_TSC, PATH_TSCONFIG, PATH_TSCONFIG_SELF} from './constants';
 import Transformer from './transformer';
 import {ensureDir, execBuffer, execInherit, exit, isDir, isFile} from './utils';
-import type {BenchmarkOptions, BundleOptions, CompileOptions, DeclareOptions, TaskOptions, TestOptions, TransformOptions, WatcherOptions} from './types';
+import type {BenchmarkOptions, BundleOptions, CompileOptions, DeclareOptions, PrepareOptions, TaskOptions, TestOptions, TransformOptions, WatcherOptions} from './types';
 
 /* MAIN */
 
@@ -111,6 +111,28 @@ const TSEX = {
     const contentNext = JSON.stringify ( tsconfig, undefined, 2 );
 
     await writeFile  ( PATH_TSCONFIG_SELF, contentNext );
+
+  },
+
+  prepare: async ( options: PrepareOptions ): Promise<void> => {
+
+    await TSEX.clean ();
+
+    if ( options.bundle ) {
+
+      await TSEX.bundle ( options );
+
+    } else {
+
+      await TSEX.compile ( {} );
+
+    }
+
+    if ( await isFile ( PATH_FAVA1 ) || await isFile ( PATH_FAVA2 ) ) {
+
+      await TSEX.test ( {} );
+
+    }
 
   },
 

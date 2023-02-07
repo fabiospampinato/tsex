@@ -72,6 +72,19 @@ program
   });
 
 program
+  .command ( 'prepare' )
+  .description ( 'Prepare the project for publishing by cleaning up, compiling, and testing' )
+  .option ( '--bundle', 'Bundle the project with esbuild' )
+  .option ( '--format <format>', 'The bundle format: iife, cjs, esm', 'esm' )
+  .option ( '--minify', 'Minify the bundle' )
+  .option ( '--platform <platform>', 'The bundle platform: browser, node, neutral', 'browser' )
+  .option ( '--target <target>', 'The bundle target: es2016, es2017, es2018, es2019, es2020, esnext', 'es2020' )
+  .action ( async options => {
+    await TSEX.prepare ( options );
+    process.exit ( 0 );
+  });
+
+program
   .command ( 'task' )
   .description ( 'Run a task' )
   .option ( '--name <name>', 'The name of the task' )
