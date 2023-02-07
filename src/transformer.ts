@@ -4,10 +4,9 @@
 import {readFile, writeFile} from 'atomically';
 import path from 'node:path';
 import process from 'node:process';
-import ripread from 'ripread';
 import readdir from 'tiny-readdir';
 import {NODE_MODULES, PATH_DIST, PATH_PACKAGE} from './constants';
-import {exit, isFile, isPlainObject, isString, warn} from './utils';
+import {exit, isFile, isPlainObject, isString, readFiles, warn} from './utils';
 import type {Package, TransformerContext} from './types';
 
 /* HELPERS */
@@ -44,14 +43,11 @@ const Context = {
 
   getContents: async ( files: string[] ): Promise<string[] | false> => {
 
-    const contents = await ripread<string> ( files );
-    const isSuccess = contents.every ( isString );
+    try {
 
-    if ( isSuccess ) {
+      return readFiles ( files );
 
-      return contents;
-
-    } else {
+    } catch {
 
       warn ( 'Failed to read some files' );
 

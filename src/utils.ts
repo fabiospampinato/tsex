@@ -1,6 +1,7 @@
 
 /* IMPORT */
 
+import {readFile} from 'atomically';
 import {execSync} from 'node:child_process';
 import fs from 'node:fs/promises';
 import process from 'node:process';
@@ -102,6 +103,12 @@ const isString = ( value: unknown ): value is string => {
 
 };
 
+const readFiles = ( filePaths: string[] ): Promise<string[]> => {
+
+  return Promise.all ( filePaths.map ( filePath => readFile ( filePath, 'utf8' ) ) );
+
+};
+
 const warn = ( message: string ): void => {
 
   console.log ( color.yellow ( message ) );
@@ -110,4 +117,4 @@ const warn = ( message: string ): void => {
 
 /* EXPORT */
 
-export {ensureDir, ensureFile, execBuffer, execInherit, exit, isDir, isError, isFile, isPlainObject, isString, warn};
+export {ensureDir, ensureFile, execBuffer, execInherit, exit, isDir, isError, isFile, isPlainObject, isString, readFiles, warn};

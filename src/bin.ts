@@ -3,18 +3,17 @@
 /* IMPORT */
 
 import process from 'node:process';
-import {program, updater} from 'specialist';
-import {name, version, description} from '../package.json';
+import {program, updater, version} from 'specialist';
 import TSEX from '.';
 
 /* MAIN */
 
-updater ({ name, version });
+updater ({ name: 'tsex', version });
 
 program
-  .name ( name )
+  .name ( 'tsex' )
   .version ( version )
-  .description ( description );
+  .description ( 'A little CLI for making TypeScript packages, cleanly and effortlessly.' );
 
 program
   .command ( 'benchmark' )

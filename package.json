@@ -3,29 +3,29 @@
   "repository": "github:fabiospampinato/tsex",
   "description": "A little CLI for making TypeScript packages, cleanly and effortlessly.",
   "version": "1.1.5",
-  "type": "commonjs",
+  "type": "module",
   "bin": "./dist/bin.js",
   "scripts": {
-    "clean": "rimraf dist",
-    "compile": "esbuild --bundle --minify --format=cjs --platform=node --target=es2020 src/bin.ts > dist/bin.js",
-    "compile:watch": "esbuild --watch --bundle --minify --format=cjs --platform=node --target=es2020 src/bin.ts > dist/bin.js",
-    "prepublishOnly": "npm run clean && mkdir dist && npm run compile"
+    "clean": "tsex clean",
+    "compile": "tsex compile",
+    "compile:watch": "tsex compile --watch",
+    "prepublishOnly": "npm run clean && npm run compile"
   },
   "keywords": [
     "typescript",
     "make",
     "project"
   ],
-  "devDependencies": {
-    "@types/node": "^18.11.9",
+  "dependencies": {
     "atomically": "^2.0.0",
-    "dettle": "^1.0.0",
-    "esbuild": "^0.15.14",
-    "rimraf": "^3.0.2",
-    "ripread": "^2.0.1",
-    "specialist": "^0.6.1",
-    "tiny-readdir": "^2.0.0",
-    "typescript": "^4.9.3",
-    "watcher": "^2.0.0"
+    "dettle": "^1.0.1",
+    "specialist": "^0.7.1",
+    "tiny-readdir": "^2.2.0",
+    "watcher": "^2.2.2"
+  },
+  "devDependencies": {
+    "@types/node": "^18.13.0",
+    "tsex": "^1.1.5",
+    "typescript": "^4.9.5"
   }
 }
