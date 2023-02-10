@@ -19,7 +19,7 @@
   "dependencies": {
     "atomically": "^2.0.0",
     "dettle": "^1.0.1",
-    "specialist": "^0.7.1",
+    "specialist": "^1.0.1",
     "tiny-readdir": "^2.2.0",
     "watcher": "^2.2.2"
   },

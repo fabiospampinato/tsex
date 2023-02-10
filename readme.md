@@ -11,26 +11,30 @@ npm install -g tsex
 ## Usage
 
 ```
-Usage: tsex [options] [command]
+tsex 2.0.0
 
-A little CLI for making TypeScript packages, cleanly and effortlessly.
+USAGE
 
-Options:
-  -V, --version        output the version number
-  -h, --help           display help for command
+  tsex [command]
 
-Commands:
-  benchmark [options]  Run the benchmark task
-  bundle [options]     Bundle the project with esbuild
-  clean                Delete build artifacts
-  compile [options]    Compile the project with tsc
-  declare [options]    Generate the declaration file for the project with tsc
-  dev                  Compile the project with tsc and run tests with fava, while watching files
-  prepare [options]    Prepare the project for publishing by cleaning up, compiling, and testing
-  task [options]       Run a task
-  test [options]       Run the test suite with fava
-  transform [options]  Transform build artifacts
-  help [command]       display help for command
+OPTIONS
+
+  --help          Display help for the command
+  --version, -v   Display the version number
+
+COMMANDS
+
+  help [command]  Display help for the command
+  benchmark       Run the benchmark task
+  bundle          Bundle the project with esbuild
+  clean           Delete build artifacts
+  compile         Compile the project with tsc
+  declare         Generate the declaration file for the project with tsc
+  dev             Compile the project and run tests with fava, while watching files
+  prepare         Prepare the project for publishing by cleaning up, compiling, and testing
+  task            Run a task
+  test            Run the test suite with fava
+  transform       Transform build artifacts
 ```
 
 ## License
