@@ -8,7 +8,7 @@ import path from 'node:path';
 import process from 'node:process';
 import {color} from 'specialist';
 import Watcher from 'watcher';
-import {DIR_DIST, DIR_SOURCE, PATH_DIST, PATH_SOURCE, PATH_TASK, PATH_TEST, PATH_ESBUILD, PATH_FAVA1, PATH_FAVA2, PATH_TSC, PATH_TSCONFIG, PATH_TSCONFIG_SELF} from './constants';
+import {DIR_DIST, DIR_SOURCE, PATH_DIST, PATH_SOURCE, PATH_TASK, PATH_TEST, PATH_ESBUILD1, PATH_ESBUILD2, PATH_FAVA1, PATH_FAVA2, PATH_TSC, PATH_TSCONFIG, PATH_TSCONFIG_SELF} from './constants';
 import Transformer from './transformer';
 import {ensureDir, execBuffer, execInherit, exit, isDir, isFile} from './utils';
 import type {BenchmarkOptions, BundleOptions, CompileOptions, DeclareOptions, DevOptions, PrepareOptions, TaskOptions, TestOptions, TransformOptions, WatcherOptions} from './types';
@@ -27,7 +27,9 @@ const TSEX = {
 
   bundle: async ( options: BundleOptions ): Promise<void> => {
 
-    if ( !await isFile ( PATH_ESBUILD ) ) exit ( 'Esbuild not found, did you install it?' );
+    const pathEsbuild = await isFile ( PATH_ESBUILD1 ) ? PATH_ESBUILD1 : ( await isFile ( PATH_ESBUILD2 ) ? PATH_ESBUILD2 : undefined );
+
+    if ( !pathEsbuild ) exit ( 'Esbuild not found, did you install it?' );
 
     await TSEX.init ();
 
@@ -36,7 +38,7 @@ const TSEX = {
       wait: 100,
       watch: options.watch,
       fn: async () => {
-        const command = `"${PATH_ESBUILD}" --bundle ${options.format ? `--format=${options.format}` : ''} ${options.platform ? `--platform=${options.platform}` : ''} ${options.target ? `--target=${options.target}` : ''} ${options.minify ? '--minify' : ''} "${DIR_SOURCE}/index.ts"`;
+        const command = `"${pathEsbuild}" --bundle ${options.format ? `--format=${options.format}` : ''} ${options.platform ? `--platform=${options.platform}` : ''} ${options.target ? `--target=${options.target}` : ''} ${options.minify ? '--minify' : ''} "${DIR_SOURCE}/index.ts"`;
         const buffer = await execBuffer ( command );
         if ( !buffer ) return;
         const distPath = path.join ( PATH_DIST, 'index.js' );

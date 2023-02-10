@@ -2,7 +2,7 @@
 /* IMPORT */
 
 import {readFile} from 'atomically';
-import {execSync} from 'node:child_process';
+import {execSync, execFileSync} from 'node:child_process';
 import fs from 'node:fs/promises';
 import process from 'node:process';
 import {color} from 'specialist';
@@ -25,7 +25,7 @@ const ensureFile = async ( path: string ): Promise<void> => {
 
 };
 
-const execBuffer = ( command: string ): Buffer | false => {
+const execBuffer = ( command: string, silent: boolean = false ): Buffer | false => {
 
   try {
 
@@ -33,9 +33,13 @@ const execBuffer = ( command: string ): Buffer | false => {
 
   } catch ( error: unknown ) {
 
-    const message = isError ( error ) ? error.message : ( isString ( error ) ? error: `Command failed: "${command}"` );
+    if ( !silent ) {
 
-    console.log ( color.red ( message ) );
+      const message = isError ( error ) ? error.message : ( isString ( error ) ? error: `Command failed: "${command}"` );
+
+      console.log ( color.red ( message ) );
+
+    }
 
     return false;
 
@@ -43,7 +47,30 @@ const execBuffer = ( command: string ): Buffer | false => {
 
 };
 
-const execInherit = ( command: string ): void => {
+const execFile = ( command: string, args: string[] = [], silent: boolean = false ): string | false => {
+
+  try {
+
+    return execFileSync ( command, args ).toString ();
+
+  } catch ( error: unknown ) {
+
+    if ( !silent ) {
+
+      const message = isError ( error ) ? error.message : ( isString ( error ) ? error: `Command failed: "${command}"` );
+
+      console.log ( color.red ( message ) );
+
+    }
+
+    return false;
+
+  }
+
+};
+
+
+const execInherit = ( command: string, silent: boolean = false ): void => {
 
   try {
 
@@ -51,9 +78,13 @@ const execInherit = ( command: string ): void => {
 
   } catch ( error: unknown ) {
 
-    const message = isError ( error ) ? error.message : ( isString ( error ) ? error: `Command failed: "${command}"` );
+    if ( !silent ) {
 
-    console.log ( color.red ( message ) );
+      const message = isError ( error ) ? error.message : ( isString ( error ) ? error: `Command failed: "${command}"` );
+
+      console.log ( color.red ( message ) );
+
+    }
 
   }
 
@@ -117,4 +148,4 @@ const warn = ( message: string ): void => {
 
 /* EXPORT */
 
-export {ensureDir, ensureFile, execBuffer, execInherit, exit, isDir, isError, isFile, isPlainObject, isString, readFiles, warn};
+export {ensureDir, ensureFile, execBuffer, execFile, execInherit, exit, isDir, isError, isFile, isPlainObject, isString, readFiles, warn};
