@@ -33,6 +33,10 @@ bin ( 'tsex', 'A little CLI for making TypeScript packages, cleanly and effortle
   .action ( TSEX.declare )
   /* DEV */
   .command ( 'dev', 'Compile the project and run tests with fava, while watching files' )
+  .option ( '--bundle', 'Bundle the project with esbuild' )
+  .option ( '--format <format>', 'The bundle format: iife, cjs, esm', { default: 'esm' } )
+  .option ( '--platform <platform>', 'The bundle platform: browser, node, neutral', { default: 'browser' } )
+  .option ( '--target <target>', 'The bundle target: es2016, es2017, es2018, es2019, es2020, esnext', { default: 'es2020' } )
   .action ( TSEX.dev )
   /* PREPARE */
   .command ( 'prepare', 'Prepare the project for publishing by cleaning up, compiling, and testing' )

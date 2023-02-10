@@ -11,7 +11,7 @@ import Watcher from 'watcher';
 import {DIR_DIST, DIR_SOURCE, PATH_DIST, PATH_SOURCE, PATH_TASK, PATH_TEST, PATH_ESBUILD, PATH_FAVA1, PATH_FAVA2, PATH_TSC, PATH_TSCONFIG, PATH_TSCONFIG_SELF} from './constants';
 import Transformer from './transformer';
 import {ensureDir, execBuffer, execInherit, exit, isDir, isFile} from './utils';
-import type {BenchmarkOptions, BundleOptions, CompileOptions, DeclareOptions, PrepareOptions, TaskOptions, TestOptions, TransformOptions, WatcherOptions} from './types';
+import type {BenchmarkOptions, BundleOptions, CompileOptions, DeclareOptions, DevOptions, PrepareOptions, TaskOptions, TestOptions, TransformOptions, WatcherOptions} from './types';
 
 /* MAIN */
 
@@ -88,12 +88,23 @@ const TSEX = {
 
   },
 
-  dev: async (): Promise<void> => {
+  dev: async ( options: DevOptions ): Promise<void> => {
 
-    await Promise.all ([
-      TSEX.compile ( { watch: true } ),
-      TSEX.test ( { watch: true } )
-    ])
+    if ( options.bundle ) {
+
+      await Promise.all ([
+        TSEX.bundle ( { ...options, watch: true } ),
+        TSEX.test ( { watch: true } )
+      ]);
+
+    } else {
+
+      await Promise.all ([
+        TSEX.compile ( { watch: true } ),
+        TSEX.test ( { watch: true } )
+      ]);
+
+    }
 
   },
 
