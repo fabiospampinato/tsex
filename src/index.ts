@@ -180,7 +180,7 @@ const TSEX = {
       wait: 100,
       watch: options.watch,
       fn: () => {
-        const command = `node "${pathFava}"`;
+        const command = `node "${pathFava}" --fail-fast`;
         execInherit ( command );
       }
     });
