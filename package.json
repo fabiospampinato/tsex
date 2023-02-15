@@ -22,7 +22,7 @@
   "dependencies": {
     "atomically": "^2.0.1",
     "dettle": "^1.0.1",
-    "specialist": "^1.0.2",
+    "specialist": "^1.1.0",
     "tiny-readdir": "^2.2.0",
     "watcher": "^2.2.2"
   },
