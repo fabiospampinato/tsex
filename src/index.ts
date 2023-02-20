@@ -118,6 +118,7 @@ const TSEX = {
     const tsconfig = JSON.parse ( content );
 
     tsconfig.include = [PATH_SOURCE];
+    tsconfig.compilerOptions.outDir = DIR_DIST;
     tsconfig.compilerOptions.paths['~'] = [PATH_SOURCE];
     tsconfig.compilerOptions.paths['~/*'] = [path.join ( PATH_SOURCE, '*' )];
 
