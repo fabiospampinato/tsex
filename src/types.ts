@@ -59,7 +59,7 @@ type WatcherOptions = {
 type Package = {
   bin?: string,
   main?: string,
-  exports?: string | { '.'?: string },
+  exports?: string | { '.'?: string } | { '.'?: { import?: string } },
   dependencies?: Record<string, string>,
   devDependencies?: Record<string, string>,
   peerDependencies?: Record<string, string>

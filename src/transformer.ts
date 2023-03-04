@@ -102,6 +102,8 @@ const Context = {
 
     if ( isPlainObject ( pkg.exports ) && isString ( pkg.exports['.'] ) ) return pkg.exports['.'];
 
+    if ( isPlainObject ( pkg.exports ) && isPlainObject ( pkg.exports['.'] ) && isString ( pkg.exports['.']['import'] ) ) return pkg.exports['.']['import'];
+
     if ( isString ( pkg.main ) ) return pkg.main;
 
     if ( isString ( pkg.bin ) ) return pkg.bin;

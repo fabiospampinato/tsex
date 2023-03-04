@@ -116,7 +116,7 @@ const isFile = ( path: string ): Promise<boolean> => {
 
 };
 
-const isPlainObject = ( value: unknown ): value is string => {
+const isPlainObject = ( value: unknown ): value is Record<string, unknown> => {
 
   if ( typeof value !== 'object' || value === null ) return false;
 
