@@ -51,7 +51,7 @@ const execFile = ( command: string, args: string[] = [], silent: boolean = false
 
   try {
 
-    return execFileSync ( command, args ).toString ();
+    return execFileSync ( command, args, { stdio: 'pipe' } ).toString ();
 
   } catch ( error: unknown ) {
 
