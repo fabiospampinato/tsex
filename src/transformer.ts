@@ -168,7 +168,7 @@ const Transformer = {
 
   /* API */
 
-  rewrite: ( ctx: TransformerContext, type: 'declaration' | 'source', source: string, before: string ): string | false => {
+  rewrite: ( ctx: TransformerContext, type: 'declaration' | 'source', source: string, before: string ): string | undefined => {
 
     if ( type === 'declaration' ) {
 
@@ -186,7 +186,7 @@ const Transformer = {
 
   },
 
-  rewriteDeclaration: ( ctx: TransformerContext, filePath: string, before: string ): string | false => {
+  rewriteDeclaration: ( ctx: TransformerContext, filePath: string, before: string ): string | undefined => {
 
     const isRelative = before.startsWith ( '.' );
     const isAbsolute = before.startsWith ( '~' );
@@ -206,7 +206,7 @@ const Transformer = {
 
       if ( attempt ) return relative; // We don't actually want to fully resolve the path for declaration files
 
-      return false;
+      return;
 
     }
 
@@ -214,7 +214,7 @@ const Transformer = {
 
   },
 
-  rewriteSource: ( ctx: TransformerContext, filePath: string, before: string ): string | false => {
+  rewriteSource: ( ctx: TransformerContext, filePath: string, before: string ): string | undefined => {
 
     const isRelative = before.startsWith ( '.' );
     const isAbsolute = before.startsWith ( '~' );
@@ -233,7 +233,7 @@ const Transformer = {
       const attempts = [relative, `${relative}.js`, `${relative}/index.js`];
       const attempt = attempts.find ( attempt => ctx.sourcesSet.has ( path.resolve ( from, attempt ) ) );
 
-      return attempt || false;
+      return attempt;
 
     } else if ( isModule ) {
 
@@ -298,9 +298,9 @@ const Transformer = {
     const fileContentNext = fileContent.replace ( importsExportsRequiresRe, ( ...match ) => {
 
       const prev = match[3];
-      const next = Transformer.rewrite ( ctx, type, filePath, prev );
+      const next = Transformer.rewrite ( ctx, type, filePath, prev )?.replace ( /\\/g, '/' );
 
-      if ( next === false ) {
+      if ( !next ) {
 
         warn ( `Failed to rewrite "${prev}" import in "${filePath}"` );
 
