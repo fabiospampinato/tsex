@@ -5,9 +5,12 @@
   "version": "2.2.3",
   "type": "module",
   "main": "dist/index.js",
-  "exports": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "bin": "./dist/bin.js",
+  "exports": {
+    ".": "./dist/index.js",
+    "./tsconfig.json": "./tsconfig.json"
+  },
   "scripts": {
     "clean": "tsex clean",
     "compile": "tsex compile",
