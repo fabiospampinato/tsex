@@ -124,7 +124,7 @@ const TSEX = {
 
     const contentNext = JSON.stringify ( tsconfig, undefined, 2 );
 
-    await writeFile  ( PATH_TSCONFIG_SELF, contentNext );
+    await writeFile ( PATH_TSCONFIG_SELF, contentNext );
 
   },
 
