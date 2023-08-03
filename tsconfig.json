@@ -10,7 +10,6 @@
     "disableSizeLimit": true,
     "esModuleInterop": false,
     "forceConsistentCasingInFileNames": true,
-    "importsNotUsedAsValues": "error",
     "inlineSourceMap": false,
     "inlineSources": false,
     "isolatedModules": true,
@@ -28,7 +27,6 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "outDir": "dist",
-    "preserveValueImports": true,
     "pretty": true,
     "resolveJsonModule": true,
     "skipDefaultLibCheck": true,
@@ -42,6 +40,7 @@
     "target": "es2020",
     "useDefineForClassFields": false,
     "useUnknownInCatchVariables": true,
+    "verbatimModuleSyntax": true,
     "noImplicitAny": true,
     "noUncheckedIndexedAccess": false,
     "paths": {
