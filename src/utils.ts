@@ -69,7 +69,6 @@ const execFile = ( command: string, args: string[] = [], silent: boolean = false
 
 };
 
-
 const execInherit = ( command: string, silent: boolean = false ): void => {
 
   try {
