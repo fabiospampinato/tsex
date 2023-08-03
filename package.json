@@ -23,15 +23,15 @@
     "project"
   ],
   "dependencies": {
-    "atomically": "^2.0.1",
+    "atomically": "^2.0.2",
     "dettle": "^1.0.1",
-    "specialist": "^1.1.0",
+    "specialist": "^1.2.0",
     "tiny-readdir": "^2.2.0",
-    "watcher": "^2.2.2"
+    "watcher": "^2.3.0"
   },
   "devDependencies": {
     "@types/node": "^18.13.0",
-    "tsex": "^2.1.0",
-    "typescript": "^4.9.5"
+    "tsex": "^2.2.4",
+    "typescript": "^5.1.6"
   }
 }
