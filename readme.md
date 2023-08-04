@@ -11,7 +11,7 @@ npm install -g tsex
 ## Usage
 
 ```
-tsex 2.0.0
+tsex 3.0.0
 
 USAGE
 
