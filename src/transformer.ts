@@ -3,10 +3,10 @@
 
 import {readFile, writeFile} from 'atomically';
 import path from 'node:path';
-import process from 'node:process';
+import {exit} from 'specialist';
 import readdir from 'tiny-readdir';
 import {NODE_MODULES, PATH_DIST, PATH_PACKAGE} from './constants';
-import {exit, isFile, isPlainObject, isString, readFiles, warn} from './utils';
+import {isFile, isPlainObject, isString, readFiles, warn} from './utils';
 import type {Package, TransformerContext} from './types';
 
 /* HELPERS */
@@ -109,8 +109,6 @@ const Context = {
     if ( isString ( pkg.bin ) ) return pkg.bin;
 
     exit ( 'Entry point not found in "package.json", did you forget about it?' );
-
-    process.exit ( 1 );
 
   },
 

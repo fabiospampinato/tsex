@@ -4,7 +4,6 @@
 import {readFile} from 'atomically';
 import {execSync, execFileSync} from 'node:child_process';
 import fs from 'node:fs/promises';
-import process from 'node:process';
 import {color} from 'specialist';
 
 /* MAIN */
@@ -89,14 +88,6 @@ const execInherit = ( command: string, silent: boolean = false ): void => {
 
 };
 
-const exit = ( message: string ): never => {
-
-  console.log ( color.red ( message ) );
-
-  process.exit ( 1 );
-
-};
-
 const isDir = ( path: string ): Promise<boolean> => {
 
   return isFile ( path );
@@ -147,4 +138,4 @@ const warn = ( message: string ): void => {
 
 /* EXPORT */
 
-export {ensureDir, ensureFile, execBuffer, execFile, execInherit, exit, isDir, isError, isFile, isPlainObject, isString, readFiles, warn};
+export {ensureDir, ensureFile, execBuffer, execFile, execInherit, isDir, isError, isFile, isPlainObject, isString, readFiles, warn};

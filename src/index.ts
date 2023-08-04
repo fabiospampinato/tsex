@@ -6,11 +6,11 @@ import {debounce} from 'dettle';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import process from 'node:process';
-import {color} from 'specialist';
+import {color, exit} from 'specialist';
 import Watcher from 'watcher';
 import {DIR_DIST, DIR_SOURCE, PATH_DIST, PATH_SOURCE, PATH_TASK, PATH_TEST, PATH_ESBUILD1, PATH_ESBUILD2, PATH_FAVA1, PATH_FAVA2, PATH_TSC, PATH_TSCONFIG, PATH_TSCONFIG_SELF} from './constants';
 import Transformer from './transformer';
-import {ensureDir, execBuffer, execInherit, exit, isDir, isFile} from './utils';
+import {ensureDir, execBuffer, execInherit, isDir, isFile} from './utils';
 import type {BenchmarkOptions, BundleOptions, CompileOptions, DeclareOptions, DevOptions, PrepareOptions, TaskOptions, TestOptions, TransformOptions, WatcherOptions} from './types';
 
 /* MAIN */
