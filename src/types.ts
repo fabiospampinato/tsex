@@ -9,7 +9,7 @@ type BundleOptions = {
   format?: 'iife' | 'cjs' | 'esm',
   minify?: boolean,
   platform?: 'browser' | 'node' | 'neutral',
-  target?: 'es2016' | 'es2017' | 'es2018' | 'es2019' | 'es2020' | 'esnext',
+  target?: 'es2016' | 'es2017' | 'es2018' | 'es2019' | 'es2020' | 'es2021' | 'esnext',
   watch?: boolean
 };
 
@@ -25,7 +25,7 @@ type DevOptions = {
   bundle?: boolean,
   format?: 'iife' | 'cjs' | 'esm',
   platform?: 'browser' | 'node' | 'neutral',
-  target?: 'es2016' | 'es2017' | 'es2018' | 'es2019' | 'es2020' | 'esnext'
+  target?: 'es2016' | 'es2017' | 'es2018' | 'es2019' | 'es2020' | 'es2021' | 'esnext'
 };
 
 type PrepareOptions = {
@@ -33,7 +33,7 @@ type PrepareOptions = {
   format?: 'iife' | 'cjs' | 'esm',
   minify?: boolean,
   platform?: 'browser' | 'node' | 'neutral',
-  target?: 'es2016' | 'es2017' | 'es2018' | 'es2019' | 'es2020' | 'esnext'
+  target?: 'es2016' | 'es2017' | 'es2018' | 'es2019' | 'es2020' | 'es2021' | 'esnext'
 };
 
 type TaskOptions = {
