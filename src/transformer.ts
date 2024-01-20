@@ -198,8 +198,10 @@ const Transformer = {
       const root = isRelative ? from : ctx.root;
       const to = isRelative ? path.resolve ( root, before ) : path.join ( root, `.${before.slice ( 1 )}` );
       const relative = path.relative ( from, to ).replace ( /^([^\.]|$)/, './$1' );
-
-      const attempts = [relative, `${relative}.d.ts`, `${relative}/index.d.ts`];
+      const basename = path.basename ( to );
+      const attemptsDifferentPath = [relative, `${relative}.d.ts`, `${relative}/index.d.ts`];
+      const attemptsSamePath = [`../${basename}`, `../${basename}.d.ts`, `../${basename}/index.d.ts`];
+      const attempts = ( relative === './' ) ? attemptsSamePath : attemptsDifferentPath;
       const attempt = attempts.find ( attempt => ctx.declarationsSet.has ( path.resolve ( from, attempt ) ) );
 
       if ( attempt ) return relative; // We don't actually want to fully resolve the path for declaration files
@@ -228,7 +230,10 @@ const Transformer = {
       const root = isRelative ? from : ctx.root;
       const to = isRelative ? path.resolve ( root, before ) : path.join ( root, `.${before.slice ( 1 )}` );
       const relative = path.relative ( from, to ).replace ( /^([^\.]|$)/, './$1' );
-      const attempts = [relative, `${relative}.js`, `${relative}/index.js`];
+      const basename = path.basename ( to );
+      const attemptsDifferentPath = [relative, `${relative}.js`, `${relative}/index.js`];
+      const attemptsSamePath = [`../${basename}`, `../${basename}.js`, `../${basename}/index.js`];
+      const attempts = ( relative === './' ) ? attemptsSamePath : attemptsDifferentPath;
       const attempt = attempts.find ( attempt => ctx.sourcesSet.has ( path.resolve ( from, attempt ) ) );
 
       return attempt;
