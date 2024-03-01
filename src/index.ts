@@ -84,7 +84,7 @@ const TSEX = {
 
     await TSEX.init ();
 
-    const command = `node "${PATH_TSC}" --declaration --emitDeclarationOnly --isolatedModules false --outFile "${DIR_DIST}/index.d.ts" ${options.watch ? '--watch' : ''}`;
+    const command = `node "${PATH_TSC}" --declaration --emitDeclarationOnly --isolatedModules false --verbatimModuleSyntax false --outFile "${DIR_DIST}/index.d.ts" ${options.watch ? '--watch' : ''}`;
 
     execInherit ( command );
 
