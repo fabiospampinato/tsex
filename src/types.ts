@@ -6,6 +6,7 @@ type BenchmarkOptions = {
 };
 
 type BundleOptions = {
+  external?: string[],
   format?: 'iife' | 'cjs' | 'esm',
   minify?: boolean,
   platform?: 'browser' | 'node' | 'neutral',
@@ -23,6 +24,7 @@ type DeclareOptions = {
 
 type DevOptions = {
   bundle?: boolean,
+  external?: string | string[],
   format?: 'iife' | 'cjs' | 'esm',
   platform?: 'browser' | 'node' | 'neutral',
   target?: 'es2016' | 'es2017' | 'es2018' | 'es2019' | 'es2020' | 'es2021' | 'esnext'
@@ -30,6 +32,7 @@ type DevOptions = {
 
 type PrepareOptions = {
   bundle?: boolean,
+  external?: string | string[],
   format?: 'iife' | 'cjs' | 'esm',
   minify?: boolean,
   platform?: 'browser' | 'node' | 'neutral',
@@ -50,7 +53,7 @@ type TransformOptions = {
 };
 
 type WatcherOptions = {
-  paths: string[],
+  paths: string | string[],
   wait?: number,
   watch?: boolean,
   fn: () => void | Promise<void>

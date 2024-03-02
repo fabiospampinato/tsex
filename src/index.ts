@@ -10,7 +10,7 @@ import {color, exit} from 'specialist';
 import Watcher from 'watcher';
 import {DIR_DIST, DIR_SOURCE, PATH_DIST, PATH_SOURCE, PATH_TASK, PATH_TEST, PATH_ESBUILD1, PATH_ESBUILD2, PATH_FAVA1, PATH_FAVA2, PATH_TSC, PATH_TSCONFIG, PATH_TSCONFIG_SELF} from './constants';
 import Transformer from './transformer';
-import {ensureDir, execBuffer, execInherit, isDir, isFile} from './utils';
+import {castArray, ensureDir, execBuffer, execInherit, isDir, isFile} from './utils';
 import type {BenchmarkOptions, BundleOptions, CompileOptions, DeclareOptions, DevOptions, PrepareOptions, TaskOptions, TestOptions, TransformOptions, WatcherOptions} from './types';
 
 /* MAIN */
@@ -38,7 +38,7 @@ const TSEX = {
       wait: 100,
       watch: options.watch,
       fn: async () => {
-        const command = `"${pathEsbuild}" --bundle ${options.format ? `--format=${options.format}` : ''} ${options.platform ? `--platform=${options.platform}` : ''} ${options.target ? `--target=${options.target}` : ''} ${options.minify ? '--minify' : ''} "${DIR_SOURCE}/index.ts"`;
+        const command = `"${pathEsbuild}" --bundle ${options.external ? castArray ( options.external ).map ( external => `--external:${external}` ).join ( ' ' ) : ''} ${options.format ? `--format=${options.format}` : ''} ${options.platform ? `--platform=${options.platform}` : ''} ${options.target ? `--target=${options.target}` : ''} ${options.minify ? '--minify' : ''} "${DIR_SOURCE}/index.ts"`;
         const buffer = await execBuffer ( command );
         if ( !buffer ) return;
         const distPath = path.join ( PATH_DIST, 'index.js' );

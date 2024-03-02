@@ -8,6 +8,12 @@ import {color} from 'specialist';
 
 /* MAIN */
 
+const castArray = <T> ( value: T | T[] ): T[] => {
+
+  return Array.isArray ( value ) ? value : [value];
+
+};
+
 const ensureDir = async ( path: string ): Promise<void> => {
 
   if ( await isDir ( path ) ) return;
@@ -138,4 +144,4 @@ const warn = ( message: string ): void => {
 
 /* EXPORT */
 
-export {ensureDir, ensureFile, execBuffer, execFile, execInherit, isDir, isError, isFile, isPlainObject, isString, readFiles, warn};
+export {castArray, ensureDir, ensureFile, execBuffer, execFile, execInherit, isDir, isError, isFile, isPlainObject, isString, readFiles, warn};
