@@ -14,6 +14,7 @@ bin ( 'tsex', 'A little CLI for making TypeScript packages, cleanly and effortle
   .action ( TSEX.benchmark )
   /* BUNDLE */
   .command ( 'bundle', 'Bundle the project with esbuild' )
+  .option ( '--no-declare', 'Avoid generating the declaration file', { default: true } )
   .option ( '--external <package...>', 'Packages to consider as external' )
   .option ( '--format <format>', 'The bundle format: iife, cjs, esm', { default: 'esm' } )
   .option ( '--minify', 'Minify the bundle' )

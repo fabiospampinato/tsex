@@ -6,7 +6,8 @@ type BenchmarkOptions = {
 };
 
 type BundleOptions = {
-  external?: string[],
+  declare?: boolean,
+  external?: string | string[],
   format?: 'iife' | 'cjs' | 'esm',
   minify?: boolean,
   platform?: 'browser' | 'node' | 'neutral',
@@ -53,7 +54,7 @@ type TransformOptions = {
 };
 
 type WatcherOptions = {
-  paths: string | string[],
+  paths: string[],
   wait?: number,
   watch?: boolean,
   fn: () => void | Promise<void>

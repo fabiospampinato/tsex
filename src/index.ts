@@ -45,7 +45,9 @@ const TSEX = {
         await TSEX.clean ();
         await ensureDir ( PATH_DIST );
         await writeFile ( distPath, buffer );
-        await TSEX.declare ( {} );
+        if ( options.declare ) {
+          await TSEX.declare ( {} );
+        }
       }
     });
 
