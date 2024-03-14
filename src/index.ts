@@ -7,6 +7,7 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 import process from 'node:process';
 import {color, exit} from 'specialist';
+import JSONC from 'tiny-jsonc';
 import Watcher from 'watcher';
 import {DIR_DIST, DIR_SOURCE, PATH_DIST, PATH_SOURCE, PATH_TASK, PATH_TEST, PATH_ESBUILD1, PATH_ESBUILD2, PATH_FAVA1, PATH_FAVA2, PATH_TSC, PATH_TSCONFIG, PATH_TSCONFIG_SELF} from './constants';
 import Transformer from './transformer';
@@ -117,7 +118,7 @@ const TSEX = {
     if ( !await isFile ( PATH_TSCONFIG_SELF ) ) return;
 
     const content = await readFile ( PATH_TSCONFIG_SELF, 'utf-8' );
-    const tsconfig = JSON.parse ( content );
+    const tsconfig = JSONC.parse ( content );
 
     tsconfig.include = [PATH_SOURCE];
     tsconfig.compilerOptions.outDir = DIR_DIST;
