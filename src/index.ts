@@ -1,13 +1,12 @@
 
 /* IMPORT */
 
-import {readFile, writeFile} from 'atomically';
+import {writeFile} from 'atomically';
 import {debounce} from 'dettle';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import process from 'node:process';
 import {color, exit} from 'specialist';
-import JSONC from 'tiny-jsonc';
 import Watcher from 'watcher';
 import {DIR_DIST, DIR_SOURCE, PATH_DIST, PATH_SOURCE, PATH_TASK, PATH_TEST, PATH_ESBUILD1, PATH_ESBUILD2, PATH_FAVA1, PATH_FAVA2, PATH_TSC, PATH_TSCONFIG, PATH_TSCONFIG_SELF} from './constants';
 import Transformer from './transformer';
@@ -31,8 +30,6 @@ const TSEX = {
     const pathEsbuild = await isFile ( PATH_ESBUILD1 ) ? PATH_ESBUILD1 : ( await isFile ( PATH_ESBUILD2 ) ? PATH_ESBUILD2 : undefined );
 
     if ( !pathEsbuild ) exit ( 'Esbuild not found, did you install it?' );
-
-    await TSEX.init ();
 
     return TSEX.withWatcher ({
       paths: [PATH_SOURCE, PATH_TSCONFIG],
@@ -66,8 +63,6 @@ const TSEX = {
 
     if ( !await isFile ( PATH_TSC ) ) exit ( 'TypeScript not found, did you install it?' );
 
-    await TSEX.init ();
-
     return TSEX.withWatcher ({
       paths: [PATH_SOURCE, PATH_TSCONFIG],
       wait: 100,
@@ -84,8 +79,6 @@ const TSEX = {
   declare: async ( options: DeclareOptions ): Promise<void> => {
 
     if ( !await isFile ( PATH_TSC ) ) exit ( 'TypeScript not found, did you install it?' );
-
-    await TSEX.init ();
 
     const command = `node "${PATH_TSC}" --declaration --emitDeclarationOnly --isolatedModules false --verbatimModuleSyntax false --outFile "${DIR_DIST}/index.d.ts" ${options.watch ? '--watch' : ''}`;
 
@@ -110,24 +103,6 @@ const TSEX = {
       ]);
 
     }
-
-  },
-
-  init: async (): Promise<void> => {
-
-    if ( !await isFile ( PATH_TSCONFIG_SELF ) ) return;
-
-    const content = await readFile ( PATH_TSCONFIG_SELF, 'utf-8' );
-    const tsconfig = JSONC.parse ( content );
-
-    tsconfig.include = [PATH_SOURCE];
-    tsconfig.compilerOptions.outDir = DIR_DIST;
-    tsconfig.compilerOptions.paths['~'] = [PATH_SOURCE];
-    tsconfig.compilerOptions.paths['~/*'] = [path.join ( PATH_SOURCE, '*' )];
-
-    const contentNext = JSON.stringify ( tsconfig, undefined, 2 );
-
-    await writeFile ( PATH_TSCONFIG_SELF, contentNext );
 
   },
 

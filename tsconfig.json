@@ -1,5 +1,5 @@
 {
-  "include": ["src"],
+  "include": ["${configDir}/src"],
   "compilerOptions": {
     "allowJs": false,
     "allowSyntheticDefaultImports": true,
@@ -26,7 +26,7 @@
     "noPropertyAccessFromIndexSignature": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "outDir": "dist",
+    "outDir": "${configDir}/dist",
     "pretty": true,
     "resolveJsonModule": true,
     "skipDefaultLibCheck": true,
@@ -44,8 +44,8 @@
     "noImplicitAny": true,
     "noUncheckedIndexedAccess": false,
     "paths": {
-      "~": ["./src"],
-      "~/*": ["./src/*"]
+      "~": ["${configDir}/src"],
+      "~/*": ["${configDir}/src/*"]
     }
   }
 }
