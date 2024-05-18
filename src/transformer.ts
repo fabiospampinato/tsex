@@ -166,55 +166,7 @@ const Transformer = {
 
   /* API */
 
-  rewrite: ( ctx: TransformerContext, type: 'declaration' | 'source', source: string, before: string ): string | undefined => {
-
-    if ( type === 'declaration' ) {
-
-      return Transformer.rewriteDeclaration ( ctx, source, before );
-
-    }
-
-    if ( type === 'source' ) {
-
-      return Transformer.rewriteSource ( ctx, source, before );
-
-    }
-
-    throw new Error ( 'Unknown file type' );
-
-  },
-
-  rewriteDeclaration: ( ctx: TransformerContext, filePath: string, before: string ): string | undefined => {
-
-    const isRelative = before.startsWith ( '.' );
-    const isAbsolute = before.startsWith ( '~' );
-    const isNotRewritable = isRelative && before.endsWith ( '.js' );
-
-    if ( isNotRewritable ) return before;
-
-    if ( isRelative || isAbsolute ) {
-
-      const from = path.dirname ( filePath );
-      const root = isRelative ? from : ctx.root;
-      const to = isRelative ? path.resolve ( root, before ) : path.join ( root, `.${before.slice ( 1 )}` );
-      const relative = path.relative ( from, to ).replace ( /^([^\.]|$)/, './$1' );
-      const basename = path.basename ( to );
-      const attemptsDifferentPath = [relative, `${relative}.d.ts`, `${relative}/index.d.ts`];
-      const attemptsSamePath = [`../${basename}`, `../${basename}.d.ts`, `../${basename}/index.d.ts`];
-      const attempts = ( relative === './' ) ? attemptsSamePath : attemptsDifferentPath;
-      const attempt = attempts.find ( attempt => ctx.declarationsSet.has ( path.resolve ( from, attempt ) ) );
-
-      if ( attempt ) return relative; // We don't actually want to fully resolve the path for declaration files
-
-      return;
-
-    }
-
-    return before;
-
-  },
-
-  rewriteSource: ( ctx: TransformerContext, filePath: string, before: string ): string | undefined => {
+  rewrite: ( ctx: TransformerContext, filePath: string, before: string ): string | undefined => {
 
     const isRelative = before.startsWith ( '.' );
     const isAbsolute = before.startsWith ( '~' );
@@ -285,23 +237,23 @@ const Transformer = {
 
     await Promise.all ([
       Promise.all ( ctx.sources.map ( ( source, i ) => {
-        return Transformer.transformOne ( ctx, 'source', source, ctx.sourcesContents[i] );
+        return Transformer.transformOne ( ctx, source, ctx.sourcesContents[i] );
       })),
       Promise.all ( ctx.declarations.map ( ( declaration, i ) => {
-        return Transformer.transformOne ( ctx, 'declaration', declaration, ctx.declarationsContents[i] );
+        return Transformer.transformOne ( ctx, declaration, ctx.declarationsContents[i] );
       }))
     ]);
 
   },
 
-  transformOne: async ( ctx: TransformerContext, type: 'declaration' | 'source', filePath: string, fileContent: string ): Promise<void> => {
+  transformOne: async ( ctx: TransformerContext, filePath: string, fileContent: string ): Promise<void> => {
 
     const importsExportsRequiresRe = /((?:^|[\s;,<>(){}[\]])(?:(?:im[p]ort|ex[p]ort)\s*(?:\(?|.+?from\s*)\s*|re[q]uire\s*\(\s*))(['"])([^'"\r\n\s]+)(\2)/g;
 
     const fileContentNext = fileContent.replace ( importsExportsRequiresRe, ( ...match ) => {
 
       const prev = match[3];
-      const next = Transformer.rewrite ( ctx, type, filePath, prev )?.replace ( /\\/g, '/' );
+      const next = Transformer.rewrite ( ctx, filePath, prev )?.replace ( /\\/g, '/' );
 
       if ( !next ) {
 
