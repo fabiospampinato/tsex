@@ -4,6 +4,7 @@
 import {readFile} from 'atomically';
 import {execSync, execFileSync} from 'node:child_process';
 import fs from 'node:fs/promises';
+import process from 'node:process';
 import {color} from 'specialist';
 
 /* MAIN */
@@ -40,6 +41,8 @@ const execBuffer = ( command: string, silent: boolean = false ): Buffer | false 
 
     if ( !silent ) {
 
+      process.exitCode = 1;
+
       const message = isError ( error ) ? error.message : ( isString ( error ) ? error: `Command failed: "${command}"` );
 
       console.log ( color.red ( message ) );
@@ -62,6 +65,8 @@ const execFile = ( command: string, args: string[] = [], silent: boolean = false
 
     if ( !silent ) {
 
+      process.exitCode = 1;
+
       const message = isError ( error ) ? error.message : ( isString ( error ) ? error: `Command failed: "${command}"` );
 
       console.log ( color.red ( message ) );
@@ -83,6 +88,8 @@ const execInherit = ( command: string, silent: boolean = false ): void => {
   } catch ( error: unknown ) {
 
     if ( !silent ) {
+
+      process.exitCode = 1;
 
       const message = isError ( error ) ? error.message : ( isString ( error ) ? error: `Command failed: "${command}"` );
 
