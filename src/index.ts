@@ -174,7 +174,7 @@ const TSEX = {
       watch: options.watch,
       fn: async () => {
         if ( !await isDir ( PATH_DIST ) ) return;
-        await Transformer.trasform ();
+        await Transformer.transform ();
       }
     });
 
