@@ -223,7 +223,7 @@ const Transformer = {
 
   },
 
-  trasform: async (): Promise<void> => {
+  transform: async (): Promise<void> => {
 
     const ctx = await Context.get ();
 
